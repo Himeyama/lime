@@ -23,4 +23,14 @@
   <data name="ZoomInText.Text" xml:space="preserve"><value>Ctrl + Plus (+)</value></data>
   <data name="ZoomOutText.Text" xml:space="preserve"><value>Ctrl + Minus (-)</value></data>
   <data name="AppTitleText.Text" xml:space="preserve"><value>App title</value></data>
+  <data name="Add.Text" xml:space="preserve"><value>Add</value></data>
+  <data name="Modify.Text" xml:space="preserve"><value>Modify</value></data>
+  <data name="Delete.Text" xml:space="preserve"><value>Delete</value></data>
+  <data name="Cancel.Text" xml:space="preserve"><value>Cancel</value></data>
+  <data name="AddDialogTitle.Text" xml:space="preserve"><value>Add link</value></data>
+  <data name="HeaderName.Text" xml:space="preserve"><value>Name</value></data>
+  <data name="Url.Text" xml:space="preserve"><value>URL</value></data>
+  <data name="DeleteConfirmation.Text" xml:space="preserve"><value>Delete Confirmation</value></data>
+  <data name="DeleteConfirmationMessage.Text" xml:space="preserve"><value>Are you sure you want to delete the link '{0}'?</value></data>
+  <data name="ModifyDialogTitle.Text" xml:space="preserve"><value>Modification of link</value></data>
 </root>

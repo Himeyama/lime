@@ -23,4 +23,14 @@
   <data name="ZoomInText.Text" xml:space="preserve"><value>Ctrl + プラス記号 (+)</value></data>
   <data name="ZoomOutText.Text" xml:space="preserve"><value>Ctrl + マイナス記号 (-)</value></data>
   <data name="AppTitleText.Text" xml:space="preserve"><value>アプリタイトル</value></data>
+  <data name="Add.Text" xml:space="preserve"><value>追加</value></data>
+  <data name="Modify.Text" xml:space="preserve"><value>変更</value></data>
+  <data name="Delete.Text" xml:space="preserve"><value>削除</value></data>
+  <data name="Cancel.Text" xml:space="preserve"><value>取消</value></data>
+  <data name="AddDialogTitle.Text" xml:space="preserve"><value>リンクを追加</value></data>
+  <data name="HeaderName.Text" xml:space="preserve"><value>名前</value></data>
+  <data name="Url.Text" xml:space="preserve"><value>URL</value></data>
+  <data name="DeleteConfirmation.Text" xml:space="preserve"><value>削除の確認</value></data>
+  <data name="DeleteConfirmationMessage.Text" xml:space="preserve"><value>リンク '{0}' を削除してもよろしいですか?</value></data>
+  <data name="ModifyDialogTitle.Text" xml:space="preserve"><value>リンクの変更</value></data>
 </root>
