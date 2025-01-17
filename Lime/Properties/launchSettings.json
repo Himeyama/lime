@@ -1,0 +1,10 @@
+{
+    "profiles": {
+      "Lime (Package)": {
+        "commandName": "MsixPackage"
+      },
+      "Lime (Unpackaged)": {
+        "commandName": "Project"
+      }
+    }
+  }
