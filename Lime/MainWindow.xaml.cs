@@ -75,6 +75,11 @@ public sealed partial class MainWindow : Window
 
     async Task SaveConfigFile()
     {
+        int i = 0;
+        foreach(LinkItem linkItem in LinkItems.Items){
+            linkItem.Index = i++;
+        }
+
         string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         string configFilePath = Path.Combine(documentsPath, ".lime_config.json");
 
@@ -240,10 +245,32 @@ public sealed partial class MainWindow : Window
             if (result == ContentDialogResult.Primary)
             {
                 LinkItems.Items.Remove(selectedItem);
-                int i = 0;
-                foreach(LinkItem linkItem in LinkItems.Items){
-                    linkItem.Index = i++;
-                }
+                await SaveConfigFile();
+            }
+        }
+    }
+
+    async void MoveTop(object sender, RoutedEventArgs e)
+    {
+        if (LinkItems.SelectedItem is LinkItem selectedItem)
+        {
+            if(selectedItem.Index > 0){
+                int idx = LinkItems.SelectedIndex;
+                (LinkItems.Items[idx], LinkItems.Items[idx - 1]) = (LinkItems.Items[idx - 1], LinkItems.Items[idx]);
+                LinkItems.SelectedIndex = idx - 1;
+                await SaveConfigFile();
+            }
+        }
+    }
+
+    async void MoveBottom(object sender, RoutedEventArgs e)
+    {
+        if (LinkItems.SelectedItem is LinkItem selectedItem)
+        {
+            if(selectedItem.Index < LinkItems.Items.Count - 1){
+                int idx = LinkItems.SelectedIndex;
+                (LinkItems.Items[idx], LinkItems.Items[idx + 1]) = (LinkItems.Items[idx + 1], LinkItems.Items[idx]);
+                LinkItems.SelectedIndex = idx + 1;
                 await SaveConfigFile();
             }
         }
@@ -264,7 +291,10 @@ public sealed partial class MainWindow : Window
 
     void LinkItems_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        ModifyButton.IsEnabled = DeleteButton.IsEnabled = true;
+        ModifyButton.IsEnabled = DeleteButton.IsEnabled = TopButton.IsEnabled = BottomButton.IsEnabled = true;
+        if(LinkItems.SelectedIndex == 0){
+            TopButton.IsEnabled = false;
+        }
     }
 
     static void OpenLinkInBrowser(string url)

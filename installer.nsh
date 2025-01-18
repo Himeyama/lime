@@ -21,7 +21,7 @@ InstallDir "${INSTALL_DIR}"
 
 # アイコン
 Icon "${MUI_ICON}"
-UninstallIcon "${MUI_ICON}"
+UninstallIcon "${MUI_UNICON}"
 
 # ページ
 !insertmacro MUI_PAGE_WELCOME
