@@ -72,6 +72,9 @@
             <TextBlock x:Uid="Cancel" Name="Cancel"/>
             <TextBlock x:Uid="AddDialogTitle" Name="AddDialogTitle"/>
             <TextBlock x:Uid="Url" Name="Url" />
+            <TextBlock x:Uid="Error" Name="Error"/>
+            <TextBlock x:Uid="InvalidRequestUri" Name="InvalidRequestUri" />
+            <TextBlock x:Uid="UrlCannotBeEmpty" Name="UrlCannotBeEmpty"/>
             <TextBlock x:Uid="HeaderName" Name="HeaderName" />
             <TextBlock x:Uid="DeleteConfirmation" Name="DeleteConfirmation" />
             <TextBlock x:Uid="DeleteConfirmationMessage" Name="DeleteConfirmationMessage" />

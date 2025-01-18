@@ -33,4 +33,7 @@
   <data name="DeleteConfirmation.Text" xml:space="preserve"><value>削除の確認</value></data>
   <data name="DeleteConfirmationMessage.Text" xml:space="preserve"><value>リンク '{0}' を削除してもよろしいですか?</value></data>
   <data name="ModifyDialogTitle.Text" xml:space="preserve"><value>リンクの変更</value></data>
+  <data name="Error.Text" xml:space="preserve"><value>エラー</value></data>
+  <data name="InvalidRequestUri.Text" xml:space="preserve"><value>無効なリクエスト URI</value></data>
+  <data name="UrlCannotBeEmpty.Text" xml:space="preserve"><value>URL を空にすることはできません</value></data>
 </root>

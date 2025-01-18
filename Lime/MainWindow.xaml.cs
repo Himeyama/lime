@@ -13,6 +13,8 @@ using Microsoft.UI;
 using WinRT.Interop;
 using Windows.Graphics;
 using System.Threading.Tasks;
+using System.Net.Http;
+using System.Text.RegularExpressions;
 
 
 namespace Lime;
@@ -89,6 +91,7 @@ public sealed partial class MainWindow : Window
             File.SetAttributes(configFilePath, FileAttributes.Hidden);
         }catch(Exception ex){
             await Dialog("Error", ex.Message);
+
         }
     }
 
@@ -97,7 +100,7 @@ public sealed partial class MainWindow : Window
         LinkItems.Items.Add(linkItem);
     }
 
-    async void AddItem(object sender, RoutedEventArgs e)
+    async void AddModifyItem(bool modify = false)
     {
         TextBox name = new()
         {
@@ -116,10 +119,19 @@ public sealed partial class MainWindow : Window
             Margin = new Thickness(0, 16, 0, 0)
         };
 
+        if(modify)
+        {
+            if (LinkItems.SelectedItem is LinkItem selectedItem)
+            {
+                name.Text = selectedItem.Name;
+                url.Text = selectedItem.Href;
+            }
+        }
+
         ContentDialog dialog = new()
         {
             XamlRoot = Content.XamlRoot,
-            Title = AddDialogTitle.Text,
+            Title = modify ? ModifyDialogTitle.Text : AddDialogTitle.Text,
             PrimaryButtonText = Add.Text,
             CloseButtonText = Cancel.Text,
             DefaultButton = ContentDialogButton.Primary,
@@ -133,74 +145,81 @@ public sealed partial class MainWindow : Window
 
         ContentDialogResult result = await dialog.ShowAsync();
 
-        if(result == ContentDialogResult.Primary){
-            // 新しいリンクアイテムを作成
-            LinkItem newItem = new()
-            {
-                Name = name.Text,
-                Href = url.Text,
-                Index = LinkItems.Items.Count
-            };
-            AddLink(newItem);
-            await SaveConfigFile();
+        bool flag = true;
+        while(flag){
+            if(result == ContentDialogResult.Primary){
+                if(url.Text == string.Empty){
+                    await Dialog(Error.Text, UrlCannotBeEmpty.Text);
+                    result = await dialog.ShowAsync();
+                    continue;
+                }
+
+                if(name.Text == string.Empty){
+                    name.Text = await GetPageTitle(url.Text);
+                    result = await dialog.ShowAsync();
+                }else{
+                    // 新しいリンクアイテムを作成
+                    LinkItem newItem = new()
+                    {
+                        Name = name.Text,
+                        Href = url.Text,
+                        Index = LinkItems.Items.Count
+                    };
+                    if(modify){
+                        int idx = LinkItems.SelectedIndex;
+                        if (LinkItems.SelectedItem is LinkItem selectedItem)
+                            LinkItems.Items.Remove(selectedItem);
+                        LinkItems.Items.Insert(idx, newItem);
+                    }else{
+                        AddLink(newItem);
+                    }
+                    await SaveConfigFile();
+                    flag = false;
+                }
+            }else{
+                flag = false;
+            }
         }
     }
 
-    async void ModifyItem(object sender, RoutedEventArgs e)
+    void AddItem(object sender, RoutedEventArgs e)
     {
-        if (LinkItems.SelectedItem is LinkItem selectedItem)
+        AddModifyItem();
+    }
+
+    void ModifyItem(object sender, RoutedEventArgs e)
+    {
+        AddModifyItem(true);
+    }
+
+    async Task<string> GetPageTitle(string url)
+    {
+        try
         {
-            TextBox name = new()
+            if (!Uri.IsWellFormedUriString(url, UriKind.Absolute))
             {
-                Header = new TextBlock
-                {
-                    Text = HeaderName.Text
-                },
-                Text = selectedItem.Name
-            };
-
-            TextBox url = new()
-            {
-                Header = new TextBlock
-                {
-                    Text = Url.Text
-                },
-                Text = selectedItem.Href,
-                Margin = new Thickness(0, 16, 0, 0)
-            };
-
-            ContentDialog dialog = new()
-            {
-                XamlRoot = Content.XamlRoot,
-                Title = ModifyDialogTitle.Text,
-                PrimaryButtonText = Modify.Text,
-                CloseButtonText = Cancel.Text,
-                DefaultButton = ContentDialogButton.Primary,
-                Content = new StackPanel
-                {
-                    Children = {
-                        name,
-                        url
-                    }
-                }
-            };
-
-            ContentDialogResult result = await dialog.ShowAsync();
-
-            if (result == ContentDialogResult.Primary)
-            {
-                LinkItem newItem = new()
-                {
-                    Name = name.Text,
-                    Href = url.Text,
-                    Index = selectedItem.Index
-                };
-                int idx = LinkItems.SelectedIndex;
-                LinkItems.Items.Remove(selectedItem);
-                LinkItems.Items.Insert(idx, newItem);
-
-                await SaveConfigFile();
+                await Dialog(Error.Text, InvalidRequestUri.Text + ": " + url);
+                return null;
             }
+
+            using HttpClient client = new();
+            string html = await client.GetStringAsync(url);
+
+            // 正規表現を使用してタイトルを抽出
+            Match match = Regex.Match(html, @"<title>\s*(.+?)\s*</title>", RegexOptions.IgnoreCase);
+            if (match.Success)
+            {
+                return match.Groups[1].Value;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        catch (Exception ex)
+        {
+            await Dialog(Error.Text, ex.Message);
+            return null;
         }
     }
 
@@ -248,23 +267,6 @@ public sealed partial class MainWindow : Window
     void LinkItems_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         ModifyButton.IsEnabled = DeleteButton.IsEnabled = true;
-        // if (sender is ListView chatItems)
-        // {
-        //     // 選択されたアイテムを取得
-        //     if (chatItems.SelectedItem is HistoryItem historyItem)
-        //     {
-        //         TabViewItem? tabViewItem = Tabs.SelectedItem as TabViewItem;
-        //         if (tabViewItem == null)
-        //         {
-        //             return;
-        //         }
-        //         tabViewItem.Header = historyItem.HeadUser;
-        //         if(tabViewItem.Content is Client client)
-        //         {
-        //             client.Print(historyItem);
-        //         }
-        //     }
-        // }
     }
 
     static void OpenLinkInBrowser(string url)
