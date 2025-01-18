@@ -36,4 +36,5 @@
   <data name="Error.Text" xml:space="preserve"><value>Error</value></data>
   <data name="InvalidRequestUri.Text" xml:space="preserve"><value>Invalid request Uri</value></data>
   <data name="UrlCannotBeEmpty.Text" xml:space="preserve"><value>URL cannot be empty</value></data>
+  <data name="AppTitle.Text" xml:space="preserve"><value>Lime</value></data>
 </root>

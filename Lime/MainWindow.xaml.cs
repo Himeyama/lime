@@ -39,9 +39,7 @@ public sealed partial class MainWindow : Window
         ExtendsContentIntoTitleBar = true;
         SetTitleBar(AppTitleBar);
 
-        // ZoomIn.KeyboardAcceleratorTextOverride = ZoomInText.Text;
-        // ZoomOut.KeyboardAcceleratorTextOverride = ZoomOutText.Text;
-        // AddLink("Example", "http://example.com");
+        Title = AppTitle.Text;
 
         SetWindowSize(800, 1200);
 
@@ -132,7 +130,7 @@ public sealed partial class MainWindow : Window
         {
             XamlRoot = Content.XamlRoot,
             Title = modify ? ModifyDialogTitle.Text : AddDialogTitle.Text,
-            PrimaryButtonText = Add.Text,
+            PrimaryButtonText = modify ? Modify.Text : Add.Text,
             CloseButtonText = Cancel.Text,
             DefaultButton = ContentDialogButton.Primary,
             Content = new StackPanel{

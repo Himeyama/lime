@@ -36,4 +36,5 @@
   <data name="Error.Text" xml:space="preserve"><value>エラー</value></data>
   <data name="InvalidRequestUri.Text" xml:space="preserve"><value>無効なリクエスト URI</value></data>
   <data name="UrlCannotBeEmpty.Text" xml:space="preserve"><value>URL を空にすることはできません</value></data>
+  <data name="AppTitle.Text" xml:space="preserve"><value>Lime</value></data>
 </root>

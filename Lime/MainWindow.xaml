@@ -10,9 +10,6 @@
     <Window.SystemBackdrop>
         <MicaBackdrop Kind="BaseAlt"/>
     </Window.SystemBackdrop>
-    <!-- <Window.SystemBackdrop>
-        <DesktopAcrylicBackdrop />
-    </Window.SystemBackdrop> -->
     <Grid
         RowDefinitions="Auto, *" x:Name="Window">
         <Grid Grid.Row="0">
@@ -78,6 +75,7 @@
             <TextBlock x:Uid="HeaderName" Name="HeaderName" />
             <TextBlock x:Uid="DeleteConfirmation" Name="DeleteConfirmation" />
             <TextBlock x:Uid="DeleteConfirmationMessage" Name="DeleteConfirmationMessage" />
+            <TextBlock x:Uid="AppTitle" Name="AppTitle" />
             <TextBlock x:Uid="ModifyDialogTitle" Name="ModifyDialogTitle" />
         </Grid>
     </Grid>
