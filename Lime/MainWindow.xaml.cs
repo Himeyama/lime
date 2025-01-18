@@ -292,9 +292,10 @@ public sealed partial class MainWindow : Window
     void LinkItems_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         ModifyButton.IsEnabled = DeleteButton.IsEnabled = TopButton.IsEnabled = BottomButton.IsEnabled = true;
-        if(LinkItems.SelectedIndex == 0){
+        if(LinkItems.SelectedIndex == 0)
             TopButton.IsEnabled = false;
-        }
+        if(LinkItems.SelectedIndex == LinkItems.Items.Count - 1)
+            BottomButton.IsEnabled = false;
     }
 
     static void OpenLinkInBrowser(string url)
